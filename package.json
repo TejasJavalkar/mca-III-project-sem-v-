@@ -1,0 +1,11 @@
+{
+  "name": "shppingapp",
+  "version": "1.0.0",
+  "description": "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",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}

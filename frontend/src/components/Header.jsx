@@ -11,7 +11,6 @@ import {
 import { LinkContainer } from "react-router-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../actions/userAction";
-//import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 
 const Header = ({ count }) => {
   const [searchString, setSearchString] = useState();
@@ -87,14 +86,34 @@ const Header = ({ count }) => {
                 to="/cart"
                 style={navitem}
                 activeStyle={{ color: "white", border: "1px solid #3399f3" }}
-                className="pr-5 "
+                className="pr-5 text-end"
               >
-                <Nav.Link>
-                  <>{count}</>
-                  &nbsp;Cart
+                <Nav.Link as="div">
+                  <i
+                    style={{
+                      fontSize: "23px",
+
+                      zIndex: -1,
+                    }}
+                    class="fas fa-shopping-cart"
+                  ></i>
+                  <label
+                    className="ml-4 text-light text-center "
+                    style={{
+                      width: "20px",
+                      position: "relative",
+                      top: "-15px",
+                      left: "-15px",
+                      backgroundColor: "indianred",
+                      borderRadius: "30px",
+                    }}
+                  >
+                    {count}
+                  </label>
+                  <span style={{ marginLeft: "-12px" }}>Cart</span>
                 </Nav.Link>
               </LinkContainer>
-              <Nav.Link style={navitem}>
+              <Nav.Link style={navitem} className="mt-3">
                 {" "}
                 {userInfo ? (
                   <NavDropdown

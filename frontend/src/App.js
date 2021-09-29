@@ -4,6 +4,7 @@ import Footer from "./components/Footer";
 import { useSelector } from "react-redux";
 
 import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
+import "../node_modules/bootstrap-icons/bootstrap-icons.svg";
 
 import { BrowserRouter as Router, Route } from "react-router-dom";
 
@@ -15,11 +16,12 @@ import RegisterScreen from "./screens/RegisterScreen";
 function App() {
   const cart = useSelector((state) => state.cart);
   const { cartItems } = cart;
+  let value = cartItems.length > 0 ? cartItems.length : 0;
 
   return (
     <>
       <Router>
-        <Header count={cartItems.length} />
+        <Header count={value} />
         <div className="dropdown-divider"></div>
         <main>
           <Route exact path={`/`} component={HomeScreen}></Route>

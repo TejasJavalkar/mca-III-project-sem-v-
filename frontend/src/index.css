@@ -1,0 +1,16 @@
+.ml-auto {
+  margin-left: auto !important;
+}
+
+.m-auto {
+  margin: auto !important;
+}
+
+main {
+  min-height: 81vh;
+}
+
+body {
+  width: 100%;
+  height: 100%;
+}

@@ -40,9 +40,7 @@ const FormContainer = ({ children, value }) => {
             </Col>
             <Col md={6}>
               {" "}
-              <Card.Body className="mt-5  align-item-center">
-                {children}
-              </Card.Body>
+              <Card.Body className="mt-5  ">{children}</Card.Body>
             </Col>
           </Row>
         </Card>

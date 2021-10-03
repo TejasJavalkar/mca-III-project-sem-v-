@@ -72,16 +72,13 @@ const LoginScreen = ({ location, history }) => {
     return isValid;
   };
   // save function
-  const isAdmin = userInfo.isAdmin;
+
   const loginHandler = (e) => {
     const isValid = validation();
     e.preventDefault();
     if (isValid) {
       dispatch(login(email, password));
       setIsok(true);
-    }
-    if (isAdmin) {
-      history.push("/adminDashboard");
     }
   };
   // useEffect Hook

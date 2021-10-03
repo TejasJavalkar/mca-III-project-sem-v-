@@ -7,6 +7,7 @@ import {
   InputGroup,
   NavDropdown,
   Dropdown,
+  Button,
 } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
@@ -21,7 +22,7 @@ const Header = ({ count }) => {
 
   const navitem = {
     fontSize: "16px",
-    margin: "10px",
+    marginRight: "20px",
     color: "#3399f3",
   };
 
@@ -56,86 +57,39 @@ const Header = ({ count }) => {
   };
   return (
     <>
-      <Navbar bg="dark" expand="sm" sticky-top="true" className="">
+      <Navbar bg="dark" expand="lg" className="p-2">
         <Container>
-          <Navbar.Brand className="text-light p-2" style={{ fontSize: "18px" }}>
-            ShoppingCs
-          </Navbar.Brand>
+          <LinkContainer to="/" className="text-light text-decoration-none">
+            <Navbar.Brand>ShoppingCs</Navbar.Brand>
+          </LinkContainer>
           <Navbar.Toggle
-            style={{
-              backgroundColor: "white",
-              height: "40px",
-              width: "50px",
-            }}
             aria-controls="basic-navbar-nav"
-            className=" btn btn-outline-danger rounded border border-danger"
+            className="bg-light"
           />
-          <Navbar.Collapse id="basic-navbar-nav text-end">
-            <Nav className="text-end ml-auto p-2">
-              <LinkContainer exact to="/" style={navitem} className="pr-5">
-                <Nav.Link>
-                  <i className="fas fa-home"></i> &nbsp;Home
-                </Nav.Link>
-              </LinkContainer>
-              <Nav.Link style={navitem} onClick={openHandler} exact>
-                <i className="fas fa-search"></i> &nbsp;Search
-              </Nav.Link>
-
-              <LinkContainer
-                exact
-                to="/cart"
-                style={navitem}
-                activeStyle={{ color: "white", border: "1px solid #3399f3" }}
-                className="pr-5 text-end"
-              >
-                <Nav.Link as="div">
-                  <i
-                    style={{
-                      fontSize: "23px",
-
-                      zIndex: -1,
-                    }}
-                    class="fas fa-shopping-cart"
-                  ></i>
-                  <label
-                    className="ml-4 text-light text-center "
-                    style={{
-                      width: "20px",
-                      position: "relative",
-                      top: "-15px",
-                      left: "-15px",
-                      backgroundColor: "indianred",
-                      borderRadius: "30px",
-                    }}
+          <Navbar.Collapse id="basic-navbar-nav" className="mt-3">
+            <Nav className="ml-auto">
+              {userInfo ? (
+                <Dropdown style={{ marginRight: "10px" }}>
+                  <Dropdown.Toggle
+                    variant=" text-light shadow-none"
+                    id="dropdown-basic"
+                    style={{ fontWeight: "bold" }}
                   >
-                    {count}
-                  </label>
-                  <span style={{ marginLeft: "-12px" }}>Cart</span>
-                </Nav.Link>
-              </LinkContainer>
-              <Nav.Link style={navitem} className="mt-3">
-                {" "}
-                {userInfo ? (
-                  <NavDropdown
-                    id="nav-dropdown"
-                    as="nav-item"
-                    className="border-0 shadow-none mt-5  rounded-0"
-                    title={<b clssName="text-light">{userInfo.firstName}</b>}
-                  >
-                    <div className="text-center dropdown-item">
-                      <LinkContainer
-                        to="/profile"
-                        className="text-dark text-center"
-                      >
-                        <NavDropdown.Item
-                          className="rounded-0"
-                          style={{ fontWeight: "bolder" }}
-                        >
-                          My Profile&nbsp;&nbsp;
-                          <span className="fas fa-user-circle"></span>
-                        </NavDropdown.Item>
-                      </LinkContainer>
-                      <Dropdown.Divider />
+                    {userInfo.firstName}
+                  </Dropdown.Toggle>
+
+                  <Dropdown.Menu className="mt-2 dropdown-menu-right">
+                    <LinkContainer
+                      to="/profile"
+                      className="text-dark text-center"
+                    >
+                      <NavDropdown.Item className="p-0">
+                        My Profile&nbsp;&nbsp;
+                        <span className="fas fa-user-circle"></span>
+                      </NavDropdown.Item>
+                    </LinkContainer>
+                    <div className="dropdown-divider"></div>
+                    <Dropdown.Item>
                       <LinkContainer
                         to="/order"
                         className="text-dark text-center"
@@ -145,77 +99,98 @@ const Header = ({ count }) => {
                           <span className="fas fa-user-circle"></span>
                         </NavDropdown.Item>
                       </LinkContainer>
-                      <Dropdown.Divider />
-                      <NavDropdown.Item
-                        as="button"
-                        className="text-center"
-                        onClick={logoutHandler}
-                      >
-                        Logout&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        <span className="fas fa-power-off"></span>
-                      </NavDropdown.Item>
-                    </div>
-                  </NavDropdown>
-                ) : (
-                  <LinkContainer
-                    as="nav-link"
-                    smooth
-                    to="/login"
-                    style={navitem}
-                    activeStyle={{
-                      color: "white",
-                      border: "1px solid #3399f3",
+                    </Dropdown.Item>
+                    <div className="dropdown-divider"></div>
+                    <Dropdown.Item
+                      as="button"
+                      onClick={logoutHandler}
+                      className="text-center"
+                    >
+                      Logout&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                      <span className="fas fa-power-off"></span>
+                    </Dropdown.Item>
+                  </Dropdown.Menu>
+                </Dropdown>
+              ) : (
+                <LinkContainer
+                  to="/login"
+                  style={navitem}
+                  activeStyle={{ color: "white", border: "1px solid #3399f3" }}
+                >
+                  <Nav.Link>
+                    <i className="fas fa-user"></i>
+                    &nbsp; singin
+                  </Nav.Link>
+                </LinkContainer>
+              )}
+              <LinkContainer to="/" style={navitem} className="text-end">
+                <Nav.Link>
+                  <i style={{ fontSize: "22px" }} className="fas fa-home"></i>
+                </Nav.Link>
+              </LinkContainer>
+              <Nav.Link
+                style={navitem}
+                className="text-end text-decoration-none"
+                onClick={openHandler}
+              >
+                <i style={{ fontSize: "22px" }} className="fas fa-search"></i>
+              </Nav.Link>
+
+              <LinkContainer to="/cart" style={navitem} className="text-end">
+                <Nav.Link className="pl-1">
+                  <i
+                    style={{ fontSize: "24px", marginRight: "-20px" }}
+                    className="fas fa-shopping-cart"
+                  ></i>
+                  <label
+                    className="text-center"
+                    style={{
+                      position: "relative",
+                      top: "-14px",
+                      left: "10px",
+                      width: "20px",
+                      backgroundColor: "indianred",
+                      borderRadius: "60px",
                     }}
                   >
-                    <span>
-                      <i class="fas fa-sign-in-alt"></i>&nbsp; Sing-In
-                    </span>
-                  </LinkContainer>
-                )}
-              </Nav.Link>
+                    {count}
+                  </label>
+                </Nav.Link>
+              </LinkContainer>
             </Nav>
           </Navbar.Collapse>
         </Container>
       </Navbar>
       {show ? (
         <>
-          {" "}
-          <Nav className=" ">
-            <Nav.Link className="ml-auto" onClick={closeHandler}>
-              <i className="fas fa-times"></i>
-            </Nav.Link>
-          </Nav>
-          <Nav className=" m-auto w-75">
-            <InputGroup className="">
-              <Form.Control
-                type="search"
-                style={input}
-                placeholder="Search For Shirts,Pants,Brands...."
-                aria-label="Username"
-                aria-describedby="basic-addon1"
-                className="shadow-none rounded "
-                value={searchString}
-                ref={searchString1}
-                onChange={(e) => {
-                  setSearchString(e.target.value);
-                }}
-              />
-              <p
-                as="button"
-                className="btn  border-1 shadow-none"
-                onClick={searchHandler}
-                style={{
-                  width: "60px",
-                  height: "45px",
-                  padding: "10px",
-                  zIndex: "1",
-                  borderBottom: "1px solid #3399f3",
-                }}
-              >
-                <i className="fas fa-search f-2x"></i>
-              </p>
-            </InputGroup>
-          </Nav>
+          <Container className="p-3">
+            <p
+              className="text-end "
+              style={{ cursor: "pointer" }}
+              onClick={closeHandler}
+            >
+              <i class="fas fa-times-circle" style={{ fontSize: "22px" }}></i>
+            </p>
+            <Form className="d-flex justify-content-center">
+              <InputGroup className=" text-center w-75">
+                <Form.Control
+                  placeholder="Search For Brand,Television,Tv,Camera...etc"
+                  className="shadow-none w-50"
+                  style={input}
+                  ref={searchString1}
+                  value={searchString}
+                  onChange={(e) => setSearchString(e.target.value)}
+                />
+                <Button
+                  style={{ width: "60px" }}
+                  className="shadow-none  rounded-0"
+                  onClick={searchHandler}
+                >
+                  <i className="fas fa-search"></i>
+                </Button>
+              </InputGroup>
+            </Form>
+          </Container>
         </>
       ) : null}
     </>

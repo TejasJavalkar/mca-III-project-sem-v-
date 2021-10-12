@@ -7,6 +7,7 @@ const Footer = () => {
   return (
     <>
       <Container className="bg-dark" fluid>
+        <div style={{ borderBottom: "2px solid white" }}></div>
         <Row>
           <Col className="p-2" md={3} sm={2}>
             <h1 className="text-light text-center">Services</h1>

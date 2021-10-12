@@ -1,20 +1,17 @@
 import React, { useState, useEffect } from "react";
-
-import { Form, Button, Card, InputGroup } from "react-bootstrap";
-
-import {} from "react-router-bootstrap";
+import { Form, Button, InputGroup } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import Message from "../components/sharing/Message";
 import Loader from "../components/sharing/Loader";
 import UpdateContainer from "../components/sharing/UpdateContainer";
-import { getUserDetails } from "../actions/userAction";
+import { getUserDetails, updateUserProfile } from "../actions/userAction";
 //import { listMyOrders } from "../actions/orderAction";
 
 const ProfileScreen = ({ location, history }) => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
-  const [mobile, setMobile] = useState("");
+  const [contactno, setMobile] = useState("");
 
   const dispatch = useDispatch();
   const userDetails = useSelector((state) => state.userDetails);
@@ -36,15 +33,17 @@ const ProfileScreen = ({ location, history }) => {
         setFirstName(user.firstName);
         setLastName(user.lastName);
         setEmail(user.email);
-        setMobile(user.mobile);
+        setMobile(user.contactno);
       }
     }
   }, [history, userInfo, user, dispatch]);
 
   const submitHandler = (e) => {
     e.preventDefault();
-
-    //dispatch(updateUserDetials({ id: user._id, name, email, password }));
+    console.log(firstName);
+    dispatch(
+      updateUserProfile({ id: user._id, firstName, lastName, email, contactno })
+    );
   };
 
   const inputgroup = {
@@ -91,12 +90,13 @@ const ProfileScreen = ({ location, history }) => {
                 placeholder="Email Address"
                 style={inputgroup}
                 className="shadow-none rounded-0"
+                disabled="true"
               />
             </InputGroup>
             <InputGroup className="mt-3">
               <Form.Control
                 type="text"
-                value={mobile}
+                value={contactno}
                 onChange={(e) => setMobile(e.target.value)}
                 placeholder="Mobile No"
                 style={inputgroup}

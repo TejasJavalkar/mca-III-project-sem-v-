@@ -1,10 +1,11 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Rating from "../components/Rating";
 
 import { Link } from "react-router-dom";
 
 import { listProductDetails } from "../actions/productActions";
+import {} from "../actions/cartAction";
 
 import {
   Row,
@@ -15,6 +16,7 @@ import {
   ListGroupItem,
   Container,
   Breadcrumb,
+  Form,
 } from "react-bootstrap";
 import Loader from "../components/sharing/Loader";
 
@@ -23,11 +25,35 @@ const ProductDetails = ({ history, match }) => {
 
   const productDetails = useSelector((state) => state.productDetails);
   const { loading, error, product } = productDetails;
+
   const imagesize = { height: "400px", width: "400px" };
+  const [qty, setQty] = useState(1);
+  const [msg, setMsg] = useState("");
 
   useEffect(() => {
     dispatch(listProductDetails(match.params.id));
+
+    setQty(1);
   }, [dispatch, match]);
+
+  const manusHandler = () => {
+    setQty(qty - 1);
+    if (qty === 0) setQty(1);
+  };
+
+  const plusHandler = () => {
+    if (product.countInStock === qty) {
+      setMsg(`Total Available products ${product.countInStock}`);
+    } else {
+      setMsg("");
+      setQty(qty + 1);
+    }
+  };
+
+  const addtocartHandler = () => {
+    //dispatch(getFromCart(String(userInfo._id)));
+    //history.push(`/api/cart/${userInfo._id}?${qty}`);
+  };
 
   return (
     <>
@@ -125,25 +151,37 @@ const ProductDetails = ({ history, match }) => {
               <Col md={3} className="mt-5 text-center">
                 {product.countInStock > 0 ? (
                   <>
-                    {" "}
                     <Row>
-                      <Col className="mt-5">
-                        <Button
-                          className="w-75 rounded-0"
-                          style={{ fontSize: "17px" }}
-                        >
-                          Add to Cart
+                      <Col className=" mt-5 d-flex justify-content-center">
+                        <Button onClick={manusHandler}>
+                          <i className="fas fa-minus"></i>
                         </Button>
+                        <Form.Control
+                          value={qty}
+                          className="text-center shadow-none rounded-0"
+                          onChange={(e) => setQty(e.target.value)}
+                          style={{
+                            width: "100px",
+                            border: "none",
+                            borderBottom: "1px solid black",
+                          }}
+                          maxLength="1"
+                          placeholder="Quantity"
+                        ></Form.Control>
+                        <Button onClick={plusHandler}>
+                          <i className="fas fa-plus"></i>
+                        </Button>
+                        {msg}
                       </Col>
                     </Row>
                     <Row>
                       <Col className="mt-5">
                         <Button
-                          variant="warning"
                           className="w-75 rounded-0"
                           style={{ fontSize: "17px" }}
+                          onClick={addtocartHandler}
                         >
-                          Purchase
+                          Add to Cart
                         </Button>
                       </Col>
                     </Row>

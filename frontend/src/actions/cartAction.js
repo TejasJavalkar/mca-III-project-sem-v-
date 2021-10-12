@@ -1,18 +1,22 @@
 import axios from "axios";
-import { CART_ADD_ITEM } from "../constants/cartConstant";
+import {
+  CART_GET_ITEM_REQUEST,
+  CART_GET_ITEM_SUCCESS,
+  CART_GET_ITEM_FAIL,
+} from "../constants/cartConstant";
 
-export const addToCart = (id) => async (dispatch, getState) => {
-  const { data } = await axios.get(`/api/products/${id}`);
-  dispatch({
-    type: CART_ADD_ITEM,
-    payload: {
-      product: data._id,
-      name: data.name,
-      image: data.image,
-      price: data.price,
-      countInStock: data.countInStock,
-      desc: data.description,
-    },
-  });
-  localStorage.setItem("cartItems", JSON.stringify(getState().cart.cartItems));
+export const listCart = (user) => async (dispatch) => {
+  try {
+    dispatch({ type: CART_GET_ITEM_REQUEST });
+    const { data } = await axios.get(`/api/cart/usercart`);
+    dispatch({ type: CART_GET_ITEM_SUCCESS, payload: data });
+  } catch (error) {
+    dispatch({
+      type: CART_GET_ITEM_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
 };

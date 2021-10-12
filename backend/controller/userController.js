@@ -2,6 +2,11 @@ const User = require("../models/userModel");
 const asyncHandler = require("express-async-handler");
 const generateToken = require("../utils/generateToken");
 
+const getUsers = asyncHandler(async (req, res) => {
+  const users = await User.find({});
+  res.json(users);
+});
+
 // register user
 const registerUser = asyncHandler(async (req, res) => {
   const { firstName, lastName, email, password, isAdmin } = req.body;
@@ -24,6 +29,7 @@ const registerUser = asyncHandler(async (req, res) => {
       firstName: user.firstName,
       lastname: user.lastName,
       email: user.email,
+      contactno: user.constactno,
       isAdmin: user.isAdmin,
       token: generateToken(user._id),
     });
@@ -44,6 +50,7 @@ const loginUser = asyncHandler(async (req, res) => {
       firstName: exists.firstName,
       lastname: exists.lastName,
       email: exists.email,
+      contactno: exists.contactno,
       isAdmin: exists.isAdmin,
       token: generateToken(exists._id),
     });
@@ -62,6 +69,7 @@ const getUserProfile = asyncHandler(async (req, res) => {
         firstName: user.firstName,
         lastName: user.lastName,
         email: user.email,
+        contactno: user.contactno,
         isAdmin: user.isAdmin,
       });
     } else {
@@ -81,11 +89,12 @@ const updateUserProfile = asyncHandler(async (req, res) => {
     user.contactno = req.body.contactno || user.contactno;
     const updateUser = await user.save();
     res.json({
-      _id: user._id,
-      firstName: user.firstName,
-      lastName: user.lastName,
-      email: user.email,
-      contactno: user.contactno,
+      _id: updateUser._id,
+      firstName: updateUser.firstName,
+      lastName: updateUser.lastName,
+      email: updateUser.email,
+      contactno: updateUser.contactno,
+      token: generateToken(updateUser._id),
     });
   } else {
     res.status(404);
@@ -93,4 +102,10 @@ const updateUserProfile = asyncHandler(async (req, res) => {
   }
 });
 
-module.exports = { registerUser, loginUser, getUserProfile, updateUserProfile };
+module.exports = {
+  registerUser,
+  loginUser,
+  getUserProfile,
+  updateUserProfile,
+  getUsers,
+};

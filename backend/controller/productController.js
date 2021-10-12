@@ -7,7 +7,7 @@ const getProducts = asyncHandler(async (req, res) => {
 });
 
 const getProduct = asyncHandler(async (req, res) => {
-  const product = await Product.findById(req.params.id);
+  const product = await Product.findById(req.params.pid);
   if (product) {
     res.send(product);
   } else {
@@ -56,4 +56,15 @@ const addProduct = asyncHandler(async (req, res) => {
   }
 });
 
-module.exports = { getProducts, getProduct, addProduct };
+const searchProduct = asyncHandler(async (req, res) => {
+  var regex = new RegExp(req.params.name, "i");
+  const products = await Product.find({});
+  const finds = await Product.find({ name: regex });
+  if (finds) {
+    res.json(finds);
+  } else {
+    res.send("Product Not Available");
+  }
+});
+
+module.exports = { getProducts, getProduct, addProduct, searchProduct };
